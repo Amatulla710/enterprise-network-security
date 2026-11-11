@@ -1,0 +1,41 @@
+
+# IP Addressing Plan
+
+## Inside Network
+
+Network: 192.168.10.0/24
+
+| Device | IP Address | Default Gateway |
+|---|---|---|
+| ASA Inside | 192.168.10.1 | N/A |
+| PC0 | DHCP | 192.168.10.1 |
+| PC1 | DHCP | 192.168.10.1 |
+| Server0 (DNS) | 192.168.10.12 | 192.168.10.1 |
+
+## DMZ Network
+
+Network: 192.168.30.0/24
+
+| Device | IP Address | Default Gateway |
+|---|---|---|
+| ASA DMZ | 192.168.30.1 | N/A |
+| Server1 (Web) | 192.168.30.10 | 192.168.30.1 |
+
+## Outside Network
+
+Network: 203.0.113.0/29
+
+| Device | IP Address |
+|---|---|
+| ASA Outside | 203.0.113.2 |
+| Router Gi0/0 | 203.0.113.1 |
+| Web Server Public NAT Address | 203.0.113.3 |
+
+## Simulated Internet Network
+
+Network: 198.51.100.0/24
+
+| Device | IP Address | Default Gateway |
+|---|---|---|
+| Router Gi0/1 | 198.51.100.1 | N/A |
+| InternetServer | 198.51.100.10 | 198.51.100.1 |

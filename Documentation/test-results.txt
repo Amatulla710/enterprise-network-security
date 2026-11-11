@@ -1,0 +1,26 @@
+
+# Network Security Testing Results
+
+## Connectivity and Security Tests
+
+| Test | Expected Result | Actual Result |
+|---|---|---|
+| Employee to DNS | Allow | Passed |
+| Employee to DMZ Website | Allow | Passed |
+| Employee to Internet | Allow | Passed |
+| Internet to Public Website | Allow | Passed |
+| Internet to Employee Network | Block | Passed |
+| DMZ to Employee Network | Block | Passed |
+| Internet to Internal Server | Block | Passed |
+
+## Additional Observations
+
+- Internal employees access the DMZ website using its private IP address.
+- External users access the website using its public NAT address.
+- Hairpin NAT was not configured.
+- Dynamic PAT is used for employee Internet access.
+- Static NAT is used to publish the DMZ web server.
+
+## Platform
+
+Cisco Packet Tracer

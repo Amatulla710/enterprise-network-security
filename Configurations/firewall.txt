@@ -1,0 +1,108 @@
+ciscoasa#show interface ip brief 
+Interface              IP-Address      OK? Method Status                Protocol
+ 
+Ethernet0/0            unassigned      YES unset  up                    up
+ 
+Ethernet0/1            unassigned      YES unset  up                    up
+ 
+Ethernet0/2            unassigned      YES unset  up                    up
+ 
+Ethernet0/3            unassigned      YES unset  down                  down
+ 
+Ethernet0/4            unassigned      YES unset  down                  down
+ 
+Ethernet0/5            unassigned      YES unset  down                  down
+ 
+Ethernet0/6            unassigned      YES unset  down                  down
+ 
+Ethernet0/7            unassigned      YES unset  down                  down
+ 
+Vlan1                  192.168.10.1    YES manual up                    up
+ 
+Vlan2                  203.0.113.2     YES manual up                    up
+ 
+Vlan3                  192.168.30.1    YES manual up                    up
+
+
+
+ciscoasa#show switch vlan
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    inside                           up        Et0/1, Et0/3, Et0/4, Et0/5
+                                                Et0/6, Et0/7
+2    outside                          up        Et0/0
+3    dmz                              up        Et0/2
+
+
+
+ciscoasa#show running-config interface
+interface Ethernet0/0
+ switchport access vlan 2
+!
+interface Ethernet0/1
+!
+interface Ethernet0/2
+ switchport access vlan 3
+!
+interface Ethernet0/3
+!
+interface Ethernet0/4
+!
+interface Ethernet0/5
+!
+interface Ethernet0/6
+!
+interface Ethernet0/7
+!
+interface Vlan1
+ nameif inside
+ security-level 100
+ ip address 192.168.10.1 255.255.255.0
+!
+interface Vlan2
+ nameif outside
+ security-level 0
+ ip address 203.0.113.2 255.255.255.248
+!
+interface Vlan3
+ no forward interface Vlan1
+ nameif dmz
+ security-level 50
+ ip address 192.168.30.1 255.255.255.0
+!
+ciscoasa#show running-config dhcp
+dhcpd auto_config outside
+!
+!
+dhcpd address 192.168.10.100-192.168.10.131 inside
+dhcpd dns 192.168.10.12 interface inside
+dhcpd lease 86400 interface inside
+dhcpd enable inside
+!
+
+
+
+ciscoasa#show nat
+Auto NAT Policies (Section 2)
+1 (inside) to (outside) source dynamic INSIDE_LAN interface
+    translate_hits = 0, untranslate_hits = 0
+2 (dmz) to (outside) source static WEB_SERVER 203.0.113.3
+    translate_hits = 0, untranslate_hits = 0
+
+
+
+ciscoasa#show xlate
+1 in use, 1 most used
+Flags: D - DNS, e - extended, I - identity, i - dynamic, r - portmap, s - static, T - twice, N - net-to-net
+NAT from dmz:192.168.30.10/32 to outside:203.0.113.3/32 flags s idle 00:13:39,  timeout 0:00:00
+
+
+
+
+ciscoasa#show access-list
+access-list cached ACL log flows: total 0, denied 0 (deny-flow-max 4096) alert-interval 300
+access-list OUTSIDE-IN; 2 elements; name hash: 0xd1c55e06
+access-list OUTSIDE-IN line 1 extended permit tcp any object WEB_SERVER eq www(hitcnt=0) 0xe9065838
+  access-list OUTSIDE-IN line 1 extended permit tcp any host 192.168.30.10 eq www(hitcnt=0) 0xb0c38261
+access-list OUTSIDE-IN line 2 extended permit tcp any host 192.168.30.10 eq www(hitcnt=0) 0x8ae6db2b
