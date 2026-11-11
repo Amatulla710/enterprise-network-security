@@ -154,8 +154,8 @@ Packet Tracer Simulation Mode was used to inspect packet flow and firewall drops
 - [Router configuration](Configurations/router-config.txt)
 - [Switch configuration](Configurations/switch-config.txt)
 - [ASA firewall configuration and verification output](Configurations/firewall.txt)
-- [IP addressing plan](Documentation/ip-addressing.txt)
-- [Security test results](Documentation/test-results.txt)
+- [IP addressing plan](Documentation/IP-Addressing.md)
+- [Security test results](Documentation/Testing-Results.md)
 - [Screenshots](Screenshots/)
 
 ### Selected evidence
